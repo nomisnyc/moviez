@@ -3,10 +3,11 @@ require 'pry'
 
 
 conn = PG.connect(:dbname =>'moviez', :host => 'localhost')
-conn.exec( "select * from ,moviez" ) do |result|
+conn.exec( "select * from movies" ) do |result|
   result.each do |row|
   end
 end
+
 
 
 conn.close
