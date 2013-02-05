@@ -1,18 +1,18 @@
 create table movies
 (
   id serial8 primary key,
-  title text not null,
-  year varchar(4) not null,
+  title text,
+  year varchar(4),
   rated varchar(5),
   released date,
+  runtime varchar(20),
   genre text,
   director text,
   writer text,
   actors text,
   plot text,
   poster text,
-  rating float4,
-  votes int8,
-  imdb_id varchar(20),
-  response bool check ( response == true )
+  rating text,
+  votes text,
+  imdb_id varchar(20)
 );
