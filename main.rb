@@ -1,5 +1,7 @@
 require 'pg'
 require 'pry'
+require 'httparty'
+require 'json'
 
 conn = PG.connect(:dbname =>'moviez', :host => 'localhost')
 conn.exec( "select * from movies" ) do |result|
@@ -7,3 +9,15 @@ conn.exec( "select * from movies" ) do |result|
   end
 end
 
+print 'Movie Title: '
+title = gets.chomp.split.join("+")
+results = HTTParty.get("http://www.omdbapi.com/?i=&t=#{title}")
+results = JSON(results.body)
+
+puts results.values.join("\n")
+
+sql = "insert into movies (title, year, rated, released, runtime, genre, director, writer, actors, plot, poster, rating, votes, imdb_id) values ('#{results['Title']}', '#{results['Year']}', '#{results['Rated']}', '#{results['Released']}', '#{results['Runtime']}', '#{results['Genre']}', '#{results['Director']}', '#{results['Writer']}', '#{results['Actors']}', '#{results['Plot']}', '#{results['Poster']}', '#{results['imdbRating']}', '#{results['imdbVotes']}', '#{results['imdbID']}')"
+
+conn.exec(sql)
+
+conn.close
